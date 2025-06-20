@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd4bnfh7ga2tp"]
+
+[ext_resource type="Script" uid="uid://cx52pbplsgscv" path="res://Scripts/whale.gd" id="1_jns7k"]
+[ext_resource type="Texture2D" uid="uid://cikebgbhkbyli" path="res://Tiles/whale_hunter.png" id="1_ycc85"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ycc85"]
+radius = 7.0
+height = 20.0
+
+[node name="Whale" type="Area2D"]
+z_index = 1
+script = ExtResource("1_jns7k")
+
+[node name="DeadSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 1
+position = Vector2(-3, 0)
+texture = ExtResource("1_ycc85")
+region_enabled = true
+region_rect = Rect2(33.0609, 64.435, 24.1304, 31.5399)
+
+[node name="MainSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_ycc85")
+region_enabled = true
+region_rect = Rect2(39.0141, 32.6273, 18.1094, 31.0055)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CapsuleShape2D_ycc85")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
