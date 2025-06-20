@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="whale hunter"
-run/main_scene="uid://dgqaew8tpupne"
+run/main_scene="uid://bfjkr1h3coxp3"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 

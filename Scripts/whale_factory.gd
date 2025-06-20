@@ -21,11 +21,6 @@ func _spawn_whale():
 	var offset = Vector2(cos(angle), sin(angle)) * spawn_radius
 	whale.global_position = player.global_position + offset
 	
-	var hp = randi_range(1, 10)
-	var speed = randf_range(20.0, 50.0)
-	var scale = randf_range(0.8, 2.5)
-	
-	whale.hp = hp
-	whale.speed = speed
-	whale.base_scale = scale
+	var is_white_whale = randf() < 0.01
+	whale.set_up_stats(is_white_whale)
 	

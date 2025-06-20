@@ -1,4 +1,5 @@
 extends Area2D
+class_name Whale
 
 @export var speed := 30.0
 @export var hp := 3
@@ -9,6 +10,7 @@ var velocity := Vector2.ZERO
 var target_velocity := Vector2.ZERO
 var acceleration := 400.0
 var friction = 50.0
+var is_white_whale = false
 
 enum ReactionState { IDLE, FLEEING, ATTACKING }
 var state := ReactionState.IDLE
@@ -21,7 +23,6 @@ var original_modulate = null
 
 func _ready():
 	direction = Vector2(randf() * 2 - 1, randf() * 2 - 1).normalized()
-	scale = Vector2.ONE * base_scale
 	original_modulate = main_sprite.modulate
 	
 func _physics_process(delta: float) -> void:
@@ -101,6 +102,26 @@ func _attack():
 		direction = (player_pos - global_position).normalized()
 	await get_tree().create_timer(10.0).timeout
 	state = ReactionState.IDLE
+
+func set_up_stats(is_white: bool):
+	if is_white:
+		hp = 10
+		speed = 60.0
+		base_scale = 2.5
+		is_white_whale = true
+		_apply_white_whale_sprite()
+	else:
+		hp = randi_range(1, 10)
+		speed = randf_range(20.0, 50.0)
+		base_scale = randf_range(0.8, 1.5)
+		
+	main_sprite.scale = Vector2.ONE * base_scale
+	dead_sprite.scale = Vector2.ONE * base_scale
+	$CollisionShape2D.scale = Vector2.ONE * base_scale
+		
+func _apply_white_whale_sprite():
+	main_sprite.region_rect = Rect2(69.794, 64.524, 20.928, 31.216)
+	dead_sprite.region_rect = Rect2(65.948, 96.597, 22.814, 31.462)
 
 func _die():
 	direction = Vector2.ZERO 

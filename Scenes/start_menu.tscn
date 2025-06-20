@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfjkr1h3coxp3"]
+
+[ext_resource type="Script" uid="uid://blgkaxekja8si" path="res://Scripts/start_menu.gd" id="1_juhg0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8dijm"]
+font_size = 72
+
+[node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_juhg0")
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 295.0
+offset_top = 143.0
+offset_right = 854.0
+offset_bottom = 242.0
+text = "WHALE HUNTER"
+label_settings = SubResource("LabelSettings_8dijm")
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 307.0
+offset_right = 766.0
+offset_bottom = 408.0
+text = "Start Game"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

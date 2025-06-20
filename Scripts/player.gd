@@ -108,4 +108,4 @@ func take_damage():
 		_die()
 		
 func _die():
-	get_tree().quit()
+	get_tree().change_scene_to_file("res://Scenes/game_over.tscn")
