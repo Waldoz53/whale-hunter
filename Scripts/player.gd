@@ -5,6 +5,7 @@ var hp := 3
 var can_be_hit := true
 var hit_timer := 0.5
 var hit_timer_interval := 0.0
+var tracked_whale : Whale = null
 
 # movement
 @export var turn_speed := 10.0 # degrees per second
@@ -106,6 +107,9 @@ func take_damage():
 	
 	if hp <= 0:
 		_die()
+		
+func track_whale(whale: Whale):
+	tracked_whale = whale
 		
 func _die():
 	get_tree().change_scene_to_file("res://Scenes/game_over.tscn")

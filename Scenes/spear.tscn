@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://u5qa0m7mtid2"]
 
-[ext_resource type="Texture2D" uid="uid://cikebgbhkbyli" path="res://Tiles/whale_hunter.png" id="1_7nbcr"]
 [ext_resource type="Script" uid="uid://ci3jcqmo0ts02" path="res://Scripts/spear.gd" id="1_y4joh"]
+[ext_resource type="Texture2D" uid="uid://cr572ct0iiym6" path="res://Tiles/whale_hunter Sprites/whale_hunter03.png" id="2_y4joh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7nbcr"]
 size = Vector2(2, 9)
@@ -15,6 +15,6 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_7nbcr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_7nbcr")
-region_enabled = true
-region_rect = Rect2(13.7453, 37.0473, 5.52993, 12.7106)
+position = Vector2(-0.5, 5)
+texture = ExtResource("2_y4joh")
+region_rect = Rect2(11.4753, 35.9636, 9.55028, 14.0453)

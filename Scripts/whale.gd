@@ -82,7 +82,8 @@ func _lodge_spear(spear):
 		_flee()
 	else:
 		_attack()
-		
+	
+	player.track_whale(self)
 	$MainSprite.modulate = Color(1, 0, 0)
 	await get_tree().create_timer(0.2).timeout
 	$MainSprite.modulate = original_modulate
@@ -120,8 +121,8 @@ func set_up_stats(is_white: bool):
 	$CollisionShape2D.scale = Vector2.ONE * base_scale
 		
 func _apply_white_whale_sprite():
-	main_sprite.region_rect = Rect2(69.794, 64.524, 20.928, 31.216)
-	dead_sprite.region_rect = Rect2(65.948, 96.597, 22.814, 31.462)
+	main_sprite.texture = preload("res://Tiles/whale_hunter Sprites/white_whale_ALIVE.png")
+	dead_sprite.texture = preload("res://Tiles/whale_hunter Sprites/white_whale_DEAD.png")
 
 func _die():
 	direction = Vector2.ZERO 

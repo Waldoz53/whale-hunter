@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dd4bnfh7ga2tp"]
+[gd_scene load_steps=5 format=3 uid="uid://dd4bnfh7ga2tp"]
 
 [ext_resource type="Script" uid="uid://cx52pbplsgscv" path="res://Scripts/whale.gd" id="1_jns7k"]
-[ext_resource type="Texture2D" uid="uid://cikebgbhkbyli" path="res://Tiles/whale_hunter.png" id="1_ycc85"]
+[ext_resource type="Texture2D" uid="uid://3wxh4w51lt04" path="res://Tiles/whale_hunter Sprites/whale_hunter07.png" id="2_ltmiw"]
+[ext_resource type="Texture2D" uid="uid://3utnwnlm3a0a" path="res://Tiles/whale_hunter Sprites/whale_hunter04.png" id="3_ltmiw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ycc85"]
 radius = 7.0
@@ -14,14 +15,11 @@ script = ExtResource("1_jns7k")
 [node name="DeadSprite" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)
 z_index = 1
-position = Vector2(-3, 0)
-texture = ExtResource("1_ycc85")
-region_enabled = true
-region_rect = Rect2(33.0609, 64.435, 24.1304, 31.5399)
+texture = ExtResource("2_ltmiw")
+region_rect = Rect2(33.4897, 64.3465, 22.714, 31.7182)
 
 [node name="MainSprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_ycc85")
-region_enabled = true
+texture = ExtResource("3_ltmiw")
 region_rect = Rect2(39.0141, 32.6273, 18.1094, 31.0055)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
