@@ -4,6 +4,7 @@ class_name Whale
 @export var speed := 30.0
 @export var hp := 3
 @export var base_scale := 1.0
+var is_dead := false
 var rotation_speed := 5.0
 var direction := Vector2.ZERO
 var velocity := Vector2.ZERO
@@ -14,7 +15,7 @@ var is_white_whale = false
 
 enum ReactionState { IDLE, FLEEING, ATTACKING }
 var state := ReactionState.IDLE
-var reaction_speed := 100.0
+var reaction_speed := 120.0
 
 @onready var main_sprite := $MainSprite
 @onready var dead_sprite := $DeadSprite
@@ -51,6 +52,7 @@ func _on_area_entered(area: Area2D) -> void:
 		call_deferred("_lodge_spear", area)
 	elif area.name == "Player":
 		area.take_damage()
+		hp -= 1
 	else:
 		return
 
@@ -84,6 +86,7 @@ func _lodge_spear(spear):
 		_attack()
 	
 	player.track_whale(self)
+	$HitSound.play()
 	$MainSprite.modulate = Color(1, 0, 0)
 	await get_tree().create_timer(0.2).timeout
 	$MainSprite.modulate = original_modulate
@@ -111,6 +114,10 @@ func set_up_stats(is_white: bool):
 		base_scale = 2.5
 		is_white_whale = true
 		_apply_white_whale_sprite()
+		player.track_whale(self)
+		$"../UI/LogLabel".text = "The white whale is near..."
+		await get_tree().create_timer(5.0).timeout
+		$"../UI/LogLabel".text = ""
 	else:
 		hp = randi_range(1, 10)
 		speed = randf_range(20.0, 50.0)
@@ -125,6 +132,9 @@ func _apply_white_whale_sprite():
 	dead_sprite.texture = preload("res://Tiles/whale_hunter Sprites/white_whale_DEAD.png")
 
 func _die():
+	player.hp += 1
+	
+	is_dead = true
 	direction = Vector2.ZERO 
 	
 	dead_sprite.modulate.a = 0.0

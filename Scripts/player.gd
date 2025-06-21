@@ -8,7 +8,7 @@ var hit_timer_interval := 0.0
 var tracked_whale : Whale = null
 
 # movement
-@export var turn_speed := 10.0 # degrees per second
+@export var turn_speed := 15.0 # degrees per second
 var velocity := Vector2.ZERO
 var acceleration := 10.0
 var max_speed := 85.0
@@ -21,7 +21,7 @@ var can_shoot := true
 var cooldown := 5.0
 var cooldown_timer := 0.0
 
-# ui-related
+# ui/other nodes
 @onready var cooldown_label = $"../UI/CooldownLabel"
 @onready var sprite := $"Sprite2D"
 var original_modulate = null
@@ -59,10 +59,8 @@ func _movement(delta: float):
 	if Input.is_action_pressed("speed_up"):
 		velocity = velocity.move_toward(input_dir * max_speed, acceleration * delta)
 	elif Input.is_action_pressed("slow_down"):
-		turn_speed = 25.0
 		velocity = velocity.move_toward(input_dir * (max_speed * .25), acceleration * delta)
 	else:
-		turn_speed = 10.0
 		velocity = velocity.move_toward(input_dir * (max_speed  * .5), acceleration * delta)
 
 	if Input.is_action_pressed("turn_left"):
@@ -70,6 +68,11 @@ func _movement(delta: float):
 
 	if Input.is_action_pressed("turn_right"):
 		rotation += deg_to_rad(turn_speed) * delta
+	
+	if Input.is_action_just_pressed("speed_up") or Input.is_action_just_pressed("slow_down"):
+		$MoveSound.play()
+	if Input.is_action_just_pressed("turn_left") or Input.is_action_just_pressed("turn_right"):
+		$TurnSound.play()
 		
 	position += velocity * delta
 
@@ -84,6 +87,7 @@ func _launch_spear(mouse_pos: Vector2) -> void:
 	spear.direction = dir
 	
 	spear.rotation = dir.angle() + deg_to_rad(90) # aka PI / 2
+	$SpearSound.play()
 	
 func _update_cooldown_label():
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -100,10 +104,11 @@ func take_damage():
 		
 	hp -= 1
 	can_be_hit = false
+	$ShipHitSound.play()
+	
 	$Sprite2D.modulate = Color(1, 0, 0)
 	await get_tree().create_timer(0.2).timeout
 	$Sprite2D.modulate = original_modulate
-	
 	
 	if hp <= 0:
 		_die()

@@ -3,8 +3,11 @@ extends CanvasLayer
 @onready var tracking_arrow = $TrackingArrow
 @onready var player = $"../Player"
 
-func _process(delta):
-	if player.tracked_whale and player.tracked_whale.is_inside_tree():
+func _process(_delta):
+	if player.tracked_whale:
+		if player.tracked_whale.is_dead:
+			tracking_arrow.modulate.a = 0.0
+			return
 		var player_pos = player.global_position
 		var whale_pos = player.tracked_whale.global_position
 		var dir = whale_pos - player_pos

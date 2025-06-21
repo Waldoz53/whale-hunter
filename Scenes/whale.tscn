@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dd4bnfh7ga2tp"]
+[gd_scene load_steps=6 format=3 uid="uid://dd4bnfh7ga2tp"]
 
 [ext_resource type="Script" uid="uid://cx52pbplsgscv" path="res://Scripts/whale.gd" id="1_jns7k"]
 [ext_resource type="Texture2D" uid="uid://3wxh4w51lt04" path="res://Tiles/whale_hunter Sprites/whale_hunter07.png" id="2_ltmiw"]
 [ext_resource type="Texture2D" uid="uid://3utnwnlm3a0a" path="res://Tiles/whale_hunter Sprites/whale_hunter04.png" id="3_ltmiw"]
+[ext_resource type="AudioStream" uid="uid://ds654frl8jcug" path="res://Sounds/hoarse-grunt_ORIGINAL.wav" id="4_umla4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ycc85"]
 radius = 7.0
@@ -25,5 +26,8 @@ region_rect = Rect2(39.0141, 32.6273, 18.1094, 31.0055)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
 shape = SubResource("CapsuleShape2D_ycc85")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_umla4")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
