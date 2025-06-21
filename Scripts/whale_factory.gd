@@ -1,7 +1,7 @@
 extends Node
 
 @export var spawn_radius := 500.0
-@export var spawn_interval := 4.0
+@export var spawn_interval := 5.0
 @export var 	whale_scene : PackedScene
 var 	spawn_timer := 0.0
 

@@ -4,6 +4,7 @@ class_name Whale
 @export var speed := 30.0
 @export var hp := 3
 @export var base_scale := 1.0
+var current_speed := 0.0
 var is_dead := false
 var rotation_speed := 5.0
 var direction := Vector2.ZERO
@@ -29,35 +30,32 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	match state:
 		ReactionState.IDLE:
-			target_velocity = direction * speed
+			current_speed = move_toward(current_speed, speed, acceleration * delta)
 		ReactionState.FLEEING, ReactionState.ATTACKING:
-			target_velocity = direction * reaction_speed
+			current_speed = move_toward(current_speed, reaction_speed, acceleration * delta)
 			
-	if direction != Vector2.ZERO:
-		velocity = velocity.move_toward(target_velocity, acceleration * delta)
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
-	
+	velocity = direction * current_speed
 	position += velocity * delta
 			
 	if direction.length() > 0.01:
 		var target_angle = direction.angle() + PI / 2
 		rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
-		
-	if hp <= 0:
-		_die()
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("spears"):
+	if area.is_in_group("spears") and not is_dead:
 		call_deferred("_lodge_spear", area)
 	elif area.name == "Player":
 		area.take_damage()
-		hp -= 1
+		if not is_dead:
+			hp -= 1
 	else:
 		return
 
 func _lodge_spear(spear):
 	hp -= 1
+	
+	if hp <= 0:
+		_die()
 	
 	if speed > 10:
 		speed -= 10
@@ -107,7 +105,7 @@ func _attack():
 	if is_instance_valid(player):
 		var player_pos = player.global_position
 		direction = (player_pos - global_position).normalized()
-	await get_tree().create_timer(5.0).timeout
+	await get_tree().create_timer(2.5).timeout
 	state = ReactionState.IDLE
 
 func set_up_stats(is_white: bool):
@@ -119,8 +117,8 @@ func set_up_stats(is_white: bool):
 		_apply_white_whale_sprite()
 		player.track_whale(self)
 		$"../UI/LogLabel".text = "A white whale is near..."
-		await get_tree().create_timer(5.0).timeout
-		$"../UI/LogLabel".text = ""
+		$"../BackgroundMusic".stream = load("res://Music/Blood And Thunder.mp3")
+		$"../BackgroundMusic".play()
 	else:
 		hp = randi_range(1, 10)
 		speed = randf_range(20.0, 50.0)
@@ -129,6 +127,8 @@ func set_up_stats(is_white: bool):
 	main_sprite.scale = Vector2.ONE * base_scale
 	dead_sprite.scale = Vector2.ONE * base_scale
 	$CollisionShape2D.scale = Vector2.ONE * base_scale
+	await get_tree().create_timer(5.0).timeout
+	$"../UI/LogLabel".text = ""
 		
 func _apply_white_whale_sprite():
 	main_sprite.texture = preload("res://Tiles/whale_hunter Sprites/white_whale_ALIVE.png")
@@ -138,6 +138,10 @@ func _die():
 	player.hp += 1
 	
 	is_dead = true
+	$"../.".register_whale_kill()
+	set_physics_process(false)
+	set_process(false)
+	
 	direction = Vector2.ZERO 
 	
 	dead_sprite.modulate.a = 0.0

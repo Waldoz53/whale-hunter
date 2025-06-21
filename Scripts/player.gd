@@ -17,9 +17,9 @@ var friction := 50.0
 # spear-related
 @onready var spear_scene = preload("res://Scenes/spear.tscn")
 @onready var spear_spawner = $SpearSpawn
-var can_shoot := true
+var can_shoot := false
 var cooldown := 5.0
-var cooldown_timer := 0.0
+var cooldown_timer := 5.0
 
 # ui/other nodes
 @onready var cooldown_label = $"../UI/CooldownLabel"
@@ -59,8 +59,10 @@ func _movement(delta: float):
 	if Input.is_action_pressed("speed_up"):
 		velocity = velocity.move_toward(input_dir * max_speed, acceleration * delta)
 	elif Input.is_action_pressed("slow_down"):
+		turn_speed = 45.0
 		velocity = velocity.move_toward(input_dir * (max_speed * .25), acceleration * delta)
 	else:
+		turn_speed = 15.0
 		velocity = velocity.move_toward(input_dir * (max_speed  * .5), acceleration * delta)
 
 	if Input.is_action_pressed("turn_left"):

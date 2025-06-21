@@ -1,11 +1,13 @@
-[gd_scene load_steps=16 format=4 uid="uid://dgqaew8tpupne"]
+[gd_scene load_steps=19 format=4 uid="uid://dgqaew8tpupne"]
 
 [ext_resource type="Script" uid="uid://4l8jsb5ts4vb" path="res://Scripts/ui.gd" id="1_6bp64"]
 [ext_resource type="Texture2D" uid="uid://8syamg6px5br" path="res://Tiles/tracking_arrow.png" id="1_21xkr"]
 [ext_resource type="Script" uid="uid://evg22j7rd8ws" path="res://Scripts/player.gd" id="1_bo1nx"]
+[ext_resource type="Script" uid="uid://fowkgu1a1i2d" path="res://Scenes/main.gd" id="1_fdnlq"]
 [ext_resource type="Texture2D" uid="uid://bqagxo60ibn40" path="res://Tiles/water.png" id="3_8gbba"]
 [ext_resource type="Texture2D" uid="uid://tgpbgry6yeuq" path="res://Tiles/whale_hunter Sprites/whale_hunter00.png" id="4_6bp64"]
 [ext_resource type="Script" uid="uid://xa7iikvnsrh1" path="res://Scripts/whale_factory.gd" id="4_jjvhh"]
+[ext_resource type="Script" uid="uid://kh3d62kwnesh" path="res://Scripts/quote_overlay.gd" id="4_jkdf5"]
 [ext_resource type="PackedScene" uid="uid://dd4bnfh7ga2tp" path="res://Scenes/whale.tscn" id="5_kry3j"]
 [ext_resource type="AudioStream" uid="uid://coef7qitgu8w7" path="res://Sounds/wood-crash.wav" id="6_ynf5e"]
 [ext_resource type="AudioStream" uid="uid://n8nrmmw2ub4s" path="res://Sounds/crossbow-fire.wav" id="8_344ge"]
@@ -13,8 +15,11 @@
 [ext_resource type="AudioStream" uid="uid://bw86d8viw8adf" path="res://Sounds/canvas-dropcloth-snap-2.wav" id="9_d1ilt"]
 [ext_resource type="AudioStream" uid="uid://cwpep7l0jtpgk" path="res://Music/Hearts Alive.mp3" id="12_6iyac"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kry3j"]
-radius = 8.0
+[sub_resource type="LabelSettings" id="LabelSettings_fdnlq"]
+font_size = 32
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6iyac"]
+size = Vector2(16, 32)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jjvhh"]
 texture = ExtResource("3_8gbba")
@@ -27,17 +32,18 @@ texture = ExtResource("3_8gbba")
 sources/0 = SubResource("TileSetAtlasSource_jjvhh")
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_fdnlq")
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 10
 script = ExtResource("1_6bp64")
 
 [node name="LogLabel" type="Label" parent="UI"]
-offset_left = 15.0
-offset_top = 13.0
-offset_right = 55.0
-offset_bottom = 36.0
-text = "My hearts alive..."
+offset_left = 509.0
+offset_top = 561.0
+offset_right = 640.0
+offset_bottom = 584.0
+text = "My hearts-alive..."
 
 [node name="CooldownLabel" type="Label" parent="UI"]
 offset_left = 17.0
@@ -48,9 +54,38 @@ text = "cooldown test"
 
 [node name="TrackingArrow" type="Sprite2D" parent="UI"]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(588, 605)
+position = Vector2(569, 605)
 texture = ExtResource("1_21xkr")
 region_rect = Rect2(6.93336, 96.7416, 19.1171, 31.0821)
+
+[node name="QuoteOverlay" type="Control" parent="UI"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_jkdf5")
+
+[node name="QuoteLabel" type="Label" parent="UI/QuoteOverlay"]
+z_index = 1
+layout_mode = 0
+offset_left = 32.0
+offset_top = 128.0
+offset_right = 1120.0
+offset_bottom = 512.0
+text = "My hearts alive..."
+label_settings = SubResource("LabelSettings_fdnlq")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="UI/QuoteOverlay"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
 
 [node name="Player" type="Area2D" parent="."]
 z_index = 3
@@ -63,7 +98,7 @@ region_enabled = true
 region_rect = Rect2(5.81349, 0, 20.4648, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource("CapsuleShape2D_kry3j")
+shape = SubResource("RectangleShape2D_6iyac")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(1.5, 1.5)
@@ -81,11 +116,11 @@ tile_set = SubResource("TileSet_kry3j")
 
 [node name="ShipHitSound" type="AudioStreamPlayer2D" parent="Player"]
 stream = ExtResource("6_ynf5e")
-volume_db = -5.0
+volume_db = -10.0
 
 [node name="SpearSound" type="AudioStreamPlayer2D" parent="Player"]
 stream = ExtResource("8_344ge")
-volume_db = -10.0
+volume_db = -20.0
 
 [node name="TurnSound" type="AudioStreamPlayer2D" parent="Player"]
 stream = ExtResource("8_hptm8")
@@ -104,5 +139,5 @@ position = Vector2(126, 32)
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_6iyac")
-volume_db = -20.0
+volume_db = -17.5
 autoplay = true
