@@ -19,29 +19,44 @@ var friction := 50.0
 @onready var spear_spawner = $SpearSpawn
 var can_shoot := false
 var cooldown := 5.0
-var cooldown_timer := 5.0
+var cooldown_timer := 2.5
+const MAX_SPEARS := 3
+var spear_cooldowns := []
 
 # ui/other nodes
 @onready var cooldown_label = $"../UI/CooldownLabel"
 @onready var sprite := $"Sprite2D"
 var original_modulate = null
+@onready var ammo_icons := [
+	$"../UI/AmmoCounter/Spear1",
+	$"../UI/AmmoCounter/Spear2",
+	$"../UI/AmmoCounter/Spear3"
+]
 
 func _ready() -> void:
 	cooldown_label.text = ""
 	original_modulate = sprite.modulate
+	spear_cooldowns = []
+	for i in MAX_SPEARS:
+		spear_cooldowns.append(0.0)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if can_shoot:
+		var ready_index = _get_ready_spear_index()
+		if ready_index != -1:
 			_launch_spear(get_global_mouse_position())
-			can_shoot = false
-			cooldown_timer = cooldown
+			spear_cooldowns[ready_index] = cooldown
+		#if can_shoot:
+			#_launch_spear(get_global_mouse_position())
+			#can_shoot = false
+			#cooldown_timer = cooldown
 
 func _physics_process(delta: float) -> void:
-	if not can_shoot:
-		cooldown_timer -= delta
-		if cooldown_timer <= 0:
-			can_shoot = true
+	for i in spear_cooldowns.size():
+		if spear_cooldowns[i] > 0:
+			spear_cooldowns[i] -= delta
+			if spear_cooldowns[i] < 0:
+				spear_cooldowns[i] = 0
 			
 	if not can_be_hit:
 		hit_timer_interval += delta
@@ -53,6 +68,8 @@ func _physics_process(delta: float) -> void:
 
 func _process(_delta: float) -> void:
 	_update_cooldown_label()
+	_update_ammo_icons()
+	_update_ammo_ui_position()
 	
 func _movement(delta: float):
 	var input_dir = -transform.y
@@ -93,12 +110,36 @@ func _launch_spear(mouse_pos: Vector2) -> void:
 	
 func _update_cooldown_label():
 	var mouse_pos = get_viewport().get_mouse_position()
-	cooldown_label.position = mouse_pos + Vector2(10, 10)
+	cooldown_label.position = mouse_pos + Vector2(-40, -20)
 	
-	if not can_shoot:
-		cooldown_label.text = str(cooldown_timer).pad_decimals(1)
+	var next_ready_time := cooldown
+	for cd in spear_cooldowns:
+		if cd <= 0:
+			next_ready_time = 0
+			break
+		next_ready_time = min(next_ready_time, cd)
+	
+	if next_ready_time > 0:
+		cooldown_label.text = str(next_ready_time).pad_decimals(1)
 	else:
 		cooldown_label.text = ""
+		
+func _update_ammo_ui_position():
+	var mouse_pos = get_viewport().get_mouse_position()
+	$"../UI/AmmoCounter".position = mouse_pos + Vector2(-20, 0)
+		
+func _update_ammo_icons():
+	for i in ammo_icons.size():
+		if spear_cooldowns[i] <= 0:
+			ammo_icons[i].modulate = Color(1, 1, 1)  # Fully visible
+		else:
+			ammo_icons[i].modulate = Color(1, 1, 1, 0.3)  # Faded
+
+func _get_ready_spear_index() -> int:
+	for i in spear_cooldowns.size():
+		if spear_cooldowns[i] <= 0:
+			return i
+	return -1
 		
 func take_damage():
 	if not can_be_hit:

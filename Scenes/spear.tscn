@@ -4,14 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://cr572ct0iiym6" path="res://Tiles/whale_hunter Sprites/whale_hunter03.png" id="2_y4joh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7nbcr"]
-size = Vector2(2, 9)
+size = Vector2(2, 12)
 
 [node name="Spear" type="Area2D" groups=["spears"]]
 z_index = 5
 script = ExtResource("1_y4joh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_7nbcr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

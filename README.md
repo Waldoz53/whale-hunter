@@ -12,18 +12,12 @@ Left click: Aim with your mouse, and click to shoot a spear. Spears are "readied
 It's in the name of the game. The game has the one mechanic, hunting whales. My goal was to make a game with a single mechanic add as much polish as possible.
 
 ## To Do List:
-1. Add the special secret screens
-3. Add sound
-4. Add music
-5. Animate ship's rudder + sail
-6. Animate whales
-7. Change fonts?
-7. Change timer to a circle that refills or something
-7. Track the last whale you hit
-7. Slow spears do no damage
-8. Spears have a drawn line?
-9. Load up to 3 spears?
-10. 
+1. Animate ship's rudder + sail
+2. Animate whales
+3. Change fonts?
+4. Slow spears do no damage
+5. Spears have a drawn line?
+6. 
 
 # Attributions
 Sound effects from Freesound by:
@@ -35,4 +29,4 @@ Sound effects from Freesound by:
 
 Water tile art by Kenney.NL
 
-Ship, whale, harpoon, and arrow art by me! (thats why it looks so bad :))
+Ship, whale, harpoon, and UI art by me! (thats why it looks so bad :))

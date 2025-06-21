@@ -16,7 +16,7 @@ var is_white_whale = false
 
 enum ReactionState { IDLE, FLEEING, ATTACKING }
 var state := ReactionState.IDLE
-var reaction_speed := 120.0
+var reaction_speed := 90.0
 
 @onready var main_sprite := $MainSprite
 @onready var dead_sprite := $DeadSprite
@@ -56,10 +56,8 @@ func _lodge_spear(spear):
 	
 	if hp <= 0:
 		_die()
-	
-	if speed > 10:
-		speed -= 10
-	if reaction_speed > 10:
+
+	if reaction_speed > speed:
 		reaction_speed -= 10
 		
 	spear.direction = Vector2.ZERO
@@ -117,8 +115,6 @@ func set_up_stats(is_white: bool):
 		_apply_white_whale_sprite()
 		player.track_whale(self)
 		$"../UI/LogLabel".text = "A white whale is near..."
-		$"../BackgroundMusic".stream = load("res://Music/Blood And Thunder.mp3")
-		$"../BackgroundMusic".play()
 	else:
 		hp = randi_range(1, 10)
 		speed = randf_range(20.0, 50.0)
@@ -135,12 +131,9 @@ func _apply_white_whale_sprite():
 	dead_sprite.texture = preload("res://Tiles/whale_hunter Sprites/white_whale_DEAD.png")
 
 func _die():
-	player.hp += 1
-	
 	is_dead = true
 	$"../.".register_whale_kill()
 	set_physics_process(false)
-	set_process(false)
 	
 	direction = Vector2.ZERO 
 	
