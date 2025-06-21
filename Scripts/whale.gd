@@ -79,11 +79,14 @@ func _lodge_spear(spear):
 	if state != ReactionState.IDLE:
 		return
 		
-	var reaction_roll = randi_range(0, 1)
-	if reaction_roll == 0:
-		_flee()
-	else:
+	if is_white_whale:
 		_attack()
+	else:
+		var reaction_roll = randi_range(0, 1)
+		if reaction_roll == 0:
+			_flee()
+		else:
+			_attack()
 	
 	player.track_whale(self)
 	$HitSound.play()
@@ -96,7 +99,7 @@ func _flee():
 	if is_instance_valid(player):
 		var player_pos = player.global_position
 		direction = (global_position - player_pos).normalized()
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(5.0).timeout
 	state = ReactionState.IDLE
 		
 func _attack():
@@ -104,7 +107,7 @@ func _attack():
 	if is_instance_valid(player):
 		var player_pos = player.global_position
 		direction = (player_pos - global_position).normalized()
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(5.0).timeout
 	state = ReactionState.IDLE
 
 func set_up_stats(is_white: bool):
@@ -115,7 +118,7 @@ func set_up_stats(is_white: bool):
 		is_white_whale = true
 		_apply_white_whale_sprite()
 		player.track_whale(self)
-		$"../UI/LogLabel".text = "The white whale is near..."
+		$"../UI/LogLabel".text = "A white whale is near..."
 		await get_tree().create_timer(5.0).timeout
 		$"../UI/LogLabel".text = ""
 	else:

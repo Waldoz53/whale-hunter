@@ -3,6 +3,10 @@ extends CanvasLayer
 @onready var tracking_arrow = $TrackingArrow
 @onready var player = $"../Player"
 
+func _ready():
+	await get_tree().create_timer(5.0).timeout
+	$LogLabel.text = ''
+
 func _process(_delta):
 	if player.tracked_whale:
 		if player.tracked_whale.is_dead:
