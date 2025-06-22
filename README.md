@@ -23,13 +23,4 @@ Water tile art by Kenney.NL
 
 Ship, whale, harpoon, and UI art by me! (thats why it looks so bad :))
 
-## To Do List:
-0. Maintain the clean, simple UI!
-1. Animate ship's rudder?
-2. Animate whales?
-3. Change fonts?
-4. Slow spears do no damage
-5. Spears have a drawn line?
-6. 
-
 My dream music is Mastodon, but that costs $$
