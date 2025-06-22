@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://dgqaew8tpupne"]
+[gd_scene load_steps=24 format=4 uid="uid://dgqaew8tpupne"]
 
 [ext_resource type="Script" uid="uid://4l8jsb5ts4vb" path="res://Scripts/ui.gd" id="1_6bp64"]
 [ext_resource type="Texture2D" uid="uid://8syamg6px5br" path="res://Tiles/tracking_arrow.png" id="1_21xkr"]
@@ -8,15 +8,28 @@
 [ext_resource type="Texture2D" uid="uid://tgpbgry6yeuq" path="res://Tiles/whale_hunter Sprites/whale_hunter00.png" id="4_6bp64"]
 [ext_resource type="Script" uid="uid://xa7iikvnsrh1" path="res://Scripts/whale_factory.gd" id="4_jjvhh"]
 [ext_resource type="Script" uid="uid://kh3d62kwnesh" path="res://Scripts/quote_overlay.gd" id="4_jkdf5"]
+[ext_resource type="FontFile" uid="uid://fqq2hv5508jn" path="res://Fonts/IM_Fell_English/IMFellEnglish-Regular.ttf" id="5_k12tt"]
 [ext_resource type="PackedScene" uid="uid://dd4bnfh7ga2tp" path="res://Scenes/whale.tscn" id="5_kry3j"]
 [ext_resource type="Texture2D" uid="uid://ch7qlld63p543" path="res://Tiles/whale_hunter Sprites/spear_icon.png" id="5_wsu2k"]
+[ext_resource type="AudioStream" uid="uid://b4i7x7l15x1b" path="res://Sounds/ocean.wav" id="6_k12tt"]
 [ext_resource type="AudioStream" uid="uid://coef7qitgu8w7" path="res://Sounds/wood-crash.wav" id="6_ynf5e"]
 [ext_resource type="AudioStream" uid="uid://n8nrmmw2ub4s" path="res://Sounds/crossbow-fire.wav" id="8_344ge"]
 [ext_resource type="AudioStream" uid="uid://yhgd5lblwumn" path="res://Sounds/wood-creaking_new.wav" id="8_hptm8"]
 [ext_resource type="AudioStream" uid="uid://bw86d8viw8adf" path="res://Sounds/canvas-dropcloth-snap-2.wav" id="9_d1ilt"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_wsu2k"]
+font = ExtResource("5_k12tt")
+
+[sub_resource type="LabelSettings" id="LabelSettings_k12tt"]
+font = ExtResource("5_k12tt")
+
 [sub_resource type="LabelSettings" id="LabelSettings_fdnlq"]
+font = ExtResource("5_k12tt")
 font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_h1bgf"]
+font = ExtResource("5_k12tt")
+font_size = 18
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6iyac"]
 size = Vector2(16, 32)
@@ -39,11 +52,13 @@ layer = 10
 script = ExtResource("1_6bp64")
 
 [node name="LogLabel" type="Label" parent="UI"]
-offset_left = 509.0
-offset_top = 561.0
-offset_right = 640.0
-offset_bottom = 584.0
+offset_left = 510.0
+offset_top = 559.0
+offset_right = 641.0
+offset_bottom = 582.0
 text = "My hearts-alive..."
+label_settings = SubResource("LabelSettings_wsu2k")
+horizontal_alignment = 1
 
 [node name="CooldownLabel" type="Label" parent="UI"]
 offset_left = 17.0
@@ -51,10 +66,11 @@ offset_top = 40.0
 offset_right = 126.0
 offset_bottom = 63.0
 text = "cooldown test"
+label_settings = SubResource("LabelSettings_k12tt")
 
 [node name="TrackingArrow" type="Sprite2D" parent="UI"]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(569, 605)
+position = Vector2(575, 606)
 texture = ExtResource("1_21xkr")
 region_rect = Rect2(6.93336, 96.7416, 19.1171, 31.0821)
 
@@ -82,11 +98,27 @@ label_settings = SubResource("LabelSettings_fdnlq")
 horizontal_alignment = 1
 autowrap_mode = 3
 
+[node name="ClickLabel" type="Label" parent="UI/QuoteOverlay"]
+z_index = 1
+layout_mode = 0
+offset_left = 32.0
+offset_top = 594.0
+offset_right = 1120.0
+offset_bottom = 635.0
+text = "(click to continue)"
+label_settings = SubResource("LabelSettings_h1bgf")
+horizontal_alignment = 1
+autowrap_mode = 3
+
 [node name="ColorRect" type="ColorRect" parent="UI/QuoteOverlay"]
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
+
+[node name="QuoteMusic" type="AudioStreamPlayer" parent="UI/QuoteOverlay"]
+stream = ExtResource("6_k12tt")
+volume_db = -20.0
 
 [node name="AmmoCounter" type="Control" parent="UI"]
 layout_mode = 3
@@ -155,7 +187,7 @@ volume_db = -20.0
 
 [node name="TurnSound" type="AudioStreamPlayer2D" parent="Player"]
 stream = ExtResource("8_hptm8")
-volume_db = -10.0
+volume_db = -15.0
 
 [node name="MoveSound" type="AudioStreamPlayer2D" parent="Player"]
 stream = ExtResource("9_d1ilt")

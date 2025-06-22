@@ -4,11 +4,11 @@ var whale_kill_count := 0
 @onready var quote_overlay = $"UI/QuoteOverlay"
 
 var quotes = [
-	"Delinate chaos bewitched",
+	"No doubt the first man that ever murdered an ox was regarded as a murderer",
 	"I came to know of what fine steel the head of a harpoon is made, and how exceedingly sharp the long straight edges are always kept.",
 	"The more whales, the less fish",
 	"Prepare for what follows",
-	"Silently eyeing the vase blue eye of the sea",
+	"Silently eyeing the vast blue eye of the sea",
 	"What could be more full of meaning?",
 	"Do you not find a strange analogy to something in yourself?",
 	"The mightiest elephant is but a terrier to Leviathan",
@@ -23,6 +23,15 @@ var quotes = [
 	"Time itself now held long breathes with keen suspense",
 	"What then remained?",
 	"The whale has no voice",
+	"A deep, settled, fanatic delirium was in his eyes.",
+	"Ego non baptizo te in nomine patris, sed in nomine diaboli!",
+	"Whale-balls for breakfast—don’t forget.",
+	"Oh, Death, why canst thou not sometimes be timely?",
+	"Ye gods!",
+	"Pay attention",
+	"Do you think the archangel Gabriel thinks anything the less of me",
+	"There is nothing wonderful",
+	"I will send you to hell.",
 	
 ]
 

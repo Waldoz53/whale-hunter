@@ -28,6 +28,9 @@ func _ready():
 	original_modulate = main_sprite.modulate
 	
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
+		
 	match state:
 		ReactionState.IDLE:
 			current_speed = move_toward(current_speed, speed, acceleration * delta)
@@ -85,7 +88,6 @@ func _lodge_spear(spear):
 			_attack()
 	
 	player.track_whale(self)
-	$HitSound.play()
 	$MainSprite.modulate = Color(1, 0, 0)
 	await get_tree().create_timer(0.2).timeout
 	$MainSprite.modulate = original_modulate
